@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>2.5 - Activity: Adding SVGs to the screen</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!-- Custom styling -->
+    <link rel="stylesheet" href="./css/dc.css">
+    <style>
+        #monthly-volume-chart g.y {
+            display: none;
+        }
+
+        #logo {
+            margin-right: 2em;
+            margin-top: 2em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Bootstrap grid setup -->
+    <h1>test bed</h1>
+    <!-- External JS libraries -->
+    <div id="first-chart">
+        <strong>Days by Fluctuation(%)</strong>
+        <span class="reset" style="display: none;">range:
+            <span class="filter"></span>
+        </span>
+        <a class="reset" href="javascript:firstChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+        <div class="clearfix"></div>
+    </div>
+    </div>
+    <!-- External JS libraries -->
+    <div id="second-chart">
+        <strong>Days by Fluctuation(%)</strong>
+        <span class="reset" style="display: none;">range:
+            <span class="filter"></span>
+        </span>
+        <a class="reset" href="javascript:secondChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+        <div class="clearfix"></div>
+    </div>
+    <div id="monthly-volume-chart">
+        <strong>Days by Data amount</strong>
+        <span class="reset" style="display: none;">range:
+            <span class="filter"></span>
+        </span>
+        <a class="reset" href="javascript:volumeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- External JS libraries -->
+    <script src="./js/d3.js"></script>
+    <script src="./js/crossfilter.js"></script>
+    <script src="./js/dc.min.js"></script>
+    <!-- Custom JS -->
+    <script src="./js/chart.js"></script>
+
+</body>
+
+</html>
