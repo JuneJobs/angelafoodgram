@@ -1,28 +1,21 @@
 var _webPort = 8080;
 var _path = __dirname + '/';
+//Import express module
 var express = require("express");
 const app = express();
 const router = express.Router();
 
 app.use("/", router);
 
-var allowCORS = function (req, res, next) {
-    res.header('Acess-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-    (req.method === 'OPTIONS') ?
-        res.send(200) :
-        next();
-};
-
+//Client request listner
 app.listen(_webPort, function () {
     console.log("The server is working on the port 8080.");
 });
 console.log(__dirname);
 app.use('/css', express.static(__dirname + "/webclient/css"));
 app.use('/js', express.static(__dirname + "/webclient/js"));
-//app.use('/data', express.static(__dirname + "/"));
 
+//Router
 app.get("/css/bootstrap.min.css", function (req, res) {
     res.sendFile("./webClient/css/bootstrap.min.css", {
         'root': _path
@@ -53,8 +46,6 @@ app.get("/js/chart.js", function (req, res) {
         'root': _path
     });
 });
-
-
 app.get("/", function (req, res) {
     res.sendFile("./webClient/index.html", {
         'root': _path

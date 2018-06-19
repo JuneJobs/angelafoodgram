@@ -26,8 +26,6 @@ var dataTable = dc.dataTable('.dc-data-table');
  * Step 2: Loead data from csv file
  */
 d3.csv("data/industry.csv").then(function (data) {
-    //데이터 crossfilter에 대입
-
     /**
      * Step3 Create Dimension that we'll need
      */
@@ -76,7 +74,7 @@ d3.csv("data/industry.csv").then(function (data) {
      * Step 4 Create the Visualiztations
     */
 
-    locationChart /* dc.barChart('#volume-month-chart', 'chartGroup') */
+    locationChart
         .width(990)
         .height(180)
         .margins({ top: 10, right: 100, bottom: 30, left: 40 })
@@ -89,12 +87,11 @@ d3.csv("data/industry.csv").then(function (data) {
         .yAxisLabel("Location Quantity")
         .barPadding(0.05)
         .outerPadding(0.05)
-        //.centerBar(true)
         .renderHorizontalGridLines(true)
 
     locationChart.yAxis().ticks(5);
 
-    industryTypeChart /* dc.barChart('#volume-month-chart', 'chartGroup') */
+    industryTypeChart
         .width(990)
         .height(180)
         .margins({ top: 10, right: 100, bottom: 30, left: 40 })
@@ -107,7 +104,6 @@ d3.csv("data/industry.csv").then(function (data) {
         .yAxisLabel("Industry Type Quantity")
         .barPadding(0.05)
         .outerPadding(0.05)
-        //.centerBar(true)
         .renderHorizontalGridLines(true)
 
     industryTypeChart.yAxis().ticks(5);
@@ -118,17 +114,17 @@ d3.csv("data/industry.csv").then(function (data) {
 
     // Determine a histogram of percent changes
     volumeChart.width(990) /* dc.barChart('#monthly-volume-chart', 'chartGroup'); */
-        .height(100)    //높이
+        .height(100)    //height
         .margins({ top: 0, right: 50, bottom: 20, left: 40 })
-        .dimension(moveMonths)  //치수
-        .group(volumeByMonthGroup)  //그룹
-        .centerBar(true)    //
+        .dimension(moveMonths)  //dimension
+        .group(volumeByMonthGroup)  //group
+        .centerBar(true)    
         .gap(1)
         .x(d3.scaleTime().domain([new Date(1990, 0, 1), new Date(2012, 11, 31)]))
         //.y(d3.scaleLinear().domain([0, 100]))
         .round(d3.timeMonth.round)
         .alwaysUseRounding(true)
-        .renderHorizontalGridLines(true) //그리드 라인 그리는 함수
+        .renderHorizontalGridLines(true) //Grid liner
         .xUnits(d3.timeMonths);
 
     //table
@@ -167,11 +163,18 @@ d3.csv("data/industry.csv").then(function (data) {
     volumeChart.yAxis().ticks(0);
 
     //#### Rendering
+    /** 
+     * Step 5 Rendering
+    */
 
     //simply call `.renderAll()` to render all charts on the page
     dc.renderAll();
 
 });
+/**
+ * Get Top x lanks from the source group.
+ * @param {source_group} source_group 
+ */
 function getTops(source_group) {
     return {
         all: function () {
