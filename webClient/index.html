@@ -14,40 +14,46 @@
             display: none;
         }
 
-        #logo {
-            margin-right: 2em;
-            margin-top: 2em;
+        #industryType-chart .x.axis text {
+             text-anchor: end !important; transform: rotate(-5deg); 
         }
     </style>
 </head>
 
 <body>
+<div class="container">
 
     <!-- Bootstrap grid setup -->
-    <h1>test bed</h1>
+    <h1>Industry </h1>
+    <p>
+        <b>Cross filter & DC.js & D3.js</b>
+        This page shows the distribution of industries by year and region. You can view the data in that range by adjusting the time
+        chart below.
+        #Issue#
+        industry type's label should be more shorter..
+    </p>
     <!-- External JS libraries -->
-    <div id="first-chart">
-        <strong>Days by Fluctuation(%)</strong>
+    <div id="location-chart">
+        <strong>Location By Years</strong>
         <span class="reset" style="display: none;">range:
             <span class="filter"></span>
         </span>
-        <a class="reset" href="javascript:firstChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+        <a class="reset" href="javascript:locationChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
 
         <div class="clearfix"></div>
     </div>
-    </div>
     <!-- External JS libraries -->
-    <div id="second-chart">
-        <strong>Days by Fluctuation(%)</strong>
+    <div id="industryType-chart">
+        <strong>Industry Type by Years</strong>
         <span class="reset" style="display: none;">range:
             <span class="filter"></span>
         </span>
-        <a class="reset" href="javascript:secondChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+        <a class="reset" href="javascript:industryTypeChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
 
         <div class="clearfix"></div>
     </div>
     <div id="monthly-volume-chart">
-        <strong>Days by Data amount</strong>
+        <strong>Data Amount by Years</strong>
         <span class="reset" style="display: none;">range:
             <span class="filter"></span>
         </span>
@@ -55,14 +61,15 @@
 
         <div class="clearfix"></div>
     </div>
-
+    <table class="table table-hover dc-data-table">
+    </table>
     <!-- External JS libraries -->
     <script src="./js/d3.js"></script>
     <script src="./js/crossfilter.js"></script>
     <script src="./js/dc.min.js"></script>
     <!-- Custom JS -->
     <script src="./js/chart.js"></script>
-
+</div>
 </body>
 
 </html>

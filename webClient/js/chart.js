@@ -1,17 +1,31 @@
 //# dc.js Getting Started and How-To Guide
 'use strict';
+/*
 
+location,incorporationDate,year_cd,indust_cd,indust_nm
+LEEDS,2012.9.11,2012,99999, Dormant Company
+LONDON,2010.9.21,2010,59112, Video production activities
+LONDON,2017.10.11,2017,62090, Other information technology service activities
+ABERDEEN,2012.4.11,2012,70229, Management consultancy activities other than financial management
+SILSOE,2014.7.30,2014,58190, Other publishing activities
+ST PETER PORT,2012.11.30,2012,None Supplied,
+STANSTED AIRPORT,2011.6.29,2011,70229, Management consultancy activities other than financial management
+BROCKLEY,1992.5.12,1992,90010, Performing arts
+WATERLOOVILLE,2016.7.12,2016,33200, Installation of industrial machinery and equipment
+
+*/
 /**
  * Step 1: Create the dc.js chart objects
  */
-var firstChart = dc.barChart('#first-chart');
-var secondChart = dc.barChart('#second-chart');
+var locationChart = dc.barChart('#location-chart');
+var industryTypeChart = dc.barChart('#industryType-chart');
 var volumeChart = dc.barChart('#monthly-volume-chart');
+var dataTable = dc.dataTable('.dc-data-table');
 
 /**
  * Step 2: Loead data from csv file
  */
-d3.csv("data/ndx.csv").then(function (data) {
+d3.csv("data/industry.csv").then(function (data) {
     //데이터 crossfilter에 대입
 
     /**
@@ -26,23 +40,23 @@ d3.csv("data/ndx.csv").then(function (data) {
     var numberFormat = d3.format('.2f');
 
     data.forEach(function (d) {
-        d.dd = dateFormatParser(d.date);
+        d.dd = dateFormatParser(d.incorporationDate);
         d.month = d3.timeMonth(d.dd); // pre-calculate month for better performance
     });
 
     // Determine a histogram of percent changes
-    var first = ndx.dimension(function (d) {
-        return d.volume;
+    var location = ndx.dimension(function (d) {
+        return d.location;
     });
-    var firstGroup = first.group();
-    firstGroup = getTops(firstGroup);
+    var locationGroup = location.group();
+    //locationGroup = getTops(locationGroup);
 
     // Determine a histogram of percent changes
-    var second = ndx.dimension(function (d) {
-        return d.close;
+    var industryType = ndx.dimension(function (d) {
+        return d.indust_nm;
     });
-    var secondGroup = second.group();
-    secondGroup = getTops(secondGroup);
+    var industryTypeGroup = industryType.group();
+    //industryTypeGroup = getTops(industryTypeGroup);
 
     // Dimension by month
     var moveMonths = ndx.dimension(function (d) {
@@ -52,45 +66,51 @@ d3.csv("data/ndx.csv").then(function (data) {
     var volumeByMonthGroup = moveMonths.group().reduceSum(function (d) {
         return 1;
     });
+
+    // Dimension by full date
+    var dateDimension = ndx.dimension(function (d) {
+        return d.dd;
+    });
+
     /** 
      * Step 4 Create the Visualiztations
     */
 
-    firstChart /* dc.barChart('#volume-month-chart', 'chartGroup') */
-        .width(window.screen.width - 200)
+    locationChart /* dc.barChart('#volume-month-chart', 'chartGroup') */
+        .width(990)
         .height(180)
         .margins({ top: 10, right: 100, bottom: 30, left: 40 })
-        .dimension(first)
-        .group(firstGroup)
+        .dimension(location)
+        .group(locationGroup)
         .elasticY(true) //.elasticY and .elasticX determine whether the chart should rescale each axis to fit the data.
-        .x(d3.scaleOrdinal().domain(firstGroup))
+        .x(d3.scaleOrdinal().domain(locationGroup))
         .xUnits(dc.units.ordinal)
-        .xAxisLabel("Fisrt Type")
-        .yAxisLabel("First Quantity")
+        .xAxisLabel("Location Type")
+        .yAxisLabel("Location Quantity")
         .barPadding(0.05)
         .outerPadding(0.05)
         //.centerBar(true)
         .renderHorizontalGridLines(true)
 
-    firstChart.yAxis().ticks(5);
+    locationChart.yAxis().ticks(5);
 
-    secondChart /* dc.barChart('#volume-month-chart', 'chartGroup') */
-        .width(window.screen.width - 200)
+    industryTypeChart /* dc.barChart('#volume-month-chart', 'chartGroup') */
+        .width(990)
         .height(180)
         .margins({ top: 10, right: 100, bottom: 30, left: 40 })
-        .dimension(second)
-        .group(secondGroup)
+        .dimension(industryType)
+        .group(industryTypeGroup)
         .elasticY(true) //.elasticY and .elasticX determine whether the chart should rescale each axis to fit the data.
-        .x(d3.scaleOrdinal().domain(secondGroup))
+        .x(d3.scaleOrdinal().domain(industryTypeGroup))
         .xUnits(dc.units.ordinal)
-        .xAxisLabel("Second Type")
-        .yAxisLabel("Second Quantity")
+        .xAxisLabel("Industry Type")
+        .yAxisLabel("Industry Type Quantity")
         .barPadding(0.05)
         .outerPadding(0.05)
         //.centerBar(true)
         .renderHorizontalGridLines(true)
 
-    secondChart.yAxis().ticks(5);
+    industryTypeChart.yAxis().ticks(5);
 
 
 
@@ -104,14 +124,47 @@ d3.csv("data/ndx.csv").then(function (data) {
         .group(volumeByMonthGroup)  //그룹
         .centerBar(true)    //
         .gap(1)
-        .x(d3.scaleTime().domain([new Date(1985, 0, 1), new Date(2000, 11, 31)]))
+        .x(d3.scaleTime().domain([new Date(1990, 0, 1), new Date(2012, 11, 31)]))
         //.y(d3.scaleLinear().domain([0, 100]))
         .round(d3.timeMonth.round)
         .alwaysUseRounding(true)
         .renderHorizontalGridLines(true) //그리드 라인 그리는 함수
         .xUnits(d3.timeMonths);
 
-    volumeChart.yAxis().ticks(4);
+    //table
+
+    dataTable /* dc.dataTable('.dc-data-table', 'chartGroup') */
+        .dimension(dateDimension)
+        // Data table does not use crossfilter group but rather a closure
+        // as a grouping function
+        .group(function (d) {
+            var format = d3.format('02d');
+            return d.dd.getFullYear() + '/' + format((d.dd.getMonth() + 1));
+        })
+        // (_optional_) max number of records to be shown, `default = 25`
+        .size(10)
+        // There are several ways to specify the columns; see the data-table documentation.
+        // This code demonstrates generating the column header automatically based on the columns.
+        .columns([
+            'incorporationDate',
+            'location',
+            'indust_cd',
+            'indust_nm'
+        ])
+
+        // (_optional_) sort using the given field, `default = function(d){return d;}`
+        .sortBy(function (d) {
+            return d.dd;
+        })
+        // (_optional_) sort order, `default = d3.ascending`
+        .order(d3.ascending)
+        // (_optional_) custom renderlet to post-process chart using [D3](http://d3js.org)
+        .on('renderlet', function (table) {
+            table.selectAll('.dc-table-group').classed('info', true);
+        });
+
+
+    volumeChart.yAxis().ticks(0);
 
     //#### Rendering
 
@@ -122,7 +175,7 @@ d3.csv("data/ndx.csv").then(function (data) {
 function getTops(source_group) {
     return {
         all: function () {
-            return source_group.top(10);
+            return source_group.top(5);
         }
     };
 }
