@@ -51,7 +51,7 @@ d3.csv("data/industry.csv").then(function (data) {
 
     // Determine a histogram of percent changes
     var industryType = ndx.dimension(function (d) {
-        return d.indust_nm;
+        return d.IndustryCode;
     });
     var industryTypeGroup = industryType.group();
     industryTypeGroup = getTops(industryTypeGroup);
@@ -144,7 +144,7 @@ d3.csv("data/industry.csv").then(function (data) {
         .columns([
             'incorporationDate',
             'location',
-            'indust_cd',
+            'IndustryCode',
             'indust_nm'
         ])
 
