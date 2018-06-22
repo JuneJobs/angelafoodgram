@@ -17,6 +17,7 @@ WATERLOOVILLE,2016.7.12,2016,33200, Installation of industrial machinery and equ
 /**
  * Step 1: Create the dc.js chart objects
  */
+var zipCodeChart = dc.barChart('#zipCode-chart');
 var locationChart = dc.barChart('#location-chart');
 var industryTypeChart = dc.barChart('#industryType-chart');
 var volumeChart = dc.barChart('#monthly-volume-chart');
@@ -41,6 +42,13 @@ d3.csv("data/industry.csv").then(function (data) {
         d.dd = dateFormatParser(d.incorporationDate);
         d.month = d3.timeMonth(d.dd); // pre-calculate month for better performance
     });
+
+    // Determine a histogram of percent changes
+    var zipCode = ndx.dimension(function (d) {
+        return d.FinalZipCode;
+    });
+    var zipCodeGroup = zipCode.group();
+    zipCodeGroup = getTops(zipCodeGroup);
 
     // Determine a histogram of percent changes
     var location = ndx.dimension(function (d) {
@@ -74,6 +82,24 @@ d3.csv("data/industry.csv").then(function (data) {
      * Step 4 Create the Visualiztations
     */
 
+    zipCodeChart
+        .width(990)
+        .height(180)
+        .margins({ top: 10, right: 100, bottom: 30, left: 40 })
+        .dimension(zipCode)
+        .group(zipCodeGroup)
+        .colors('#81D3EB')
+        .elasticY(true) //.elasticY and .elasticX determine whether the chart should rescale each axis to fit the data.
+        .x(d3.scaleOrdinal().domain(zipCodeGroup))
+        .xUnits(dc.units.ordinal)
+        .xAxisLabel("Zip Code")
+        .yAxisLabel("Zip Code Quantity")
+        .barPadding(0.05)
+        .outerPadding(0.05)
+        .renderHorizontalGridLines(true)
+
+    zipCodeChart.yAxis().ticks(5);
+    
     locationChart
         .width(990)
         .height(180)
@@ -123,7 +149,7 @@ d3.csv("data/industry.csv").then(function (data) {
         .centerBar(true)
         .colors('#4EB8B9')
         .gap(1)
-        .x(d3.scaleTime().domain([new Date(2000, 0, 1), new Date(2012, 11, 31)]))
+        .x(d3.scaleTime().domain([new Date(2000, 0, 1), new Date(2017, 11, 31)]))
         //.y(d3.scaleLinear().domain([0, 100]))
         .round(d3.timeMonth.round)
         .alwaysUseRounding(true)
@@ -141,11 +167,12 @@ d3.csv("data/industry.csv").then(function (data) {
             return d.dd.getFullYear() + '/' + format((d.dd.getMonth() + 1));
         })
         // (_optional_) max number of records to be shown, `default = 25`
-        .size(25)
+        .size(51707)
         // There are several ways to specify the columns; see the data-table documentation.
         // This code demonstrates generating the column header automatically based on the columns.
         .columns([
             'incorporationDate',
+            'FinalZipCode',
             'location',
             'IndustryCode',
             'indust_nm'
