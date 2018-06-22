@@ -80,6 +80,7 @@ d3.csv("data/industry.csv").then(function (data) {
         .margins({ top: 10, right: 100, bottom: 30, left: 40 })
         .dimension(location)
         .group(locationGroup)
+        .colors('#FFCC4E')
         .elasticY(true) //.elasticY and .elasticX determine whether the chart should rescale each axis to fit the data.
         .x(d3.scaleOrdinal().domain(locationGroup))
         .xUnits(dc.units.ordinal)
@@ -97,6 +98,7 @@ d3.csv("data/industry.csv").then(function (data) {
         .margins({ top: 10, right: 100, bottom: 30, left: 40 })
         .dimension(industryType)
         .group(industryTypeGroup)
+        .colors('#F9C0C7')
         .elasticY(true) //.elasticY and .elasticX determine whether the chart should rescale each axis to fit the data.
         .x(d3.scaleOrdinal().domain(industryTypeGroup))
         .xUnits(dc.units.ordinal)
@@ -118,7 +120,8 @@ d3.csv("data/industry.csv").then(function (data) {
         .margins({ top: 0, right: 50, bottom: 20, left: 40 })
         .dimension(moveMonths)  //dimension
         .group(volumeByMonthGroup)  //group
-        .centerBar(true)    
+        .centerBar(true)
+        .colors('#4EB8B9')
         .gap(1)
         .x(d3.scaleTime().domain([new Date(2000, 0, 1), new Date(2012, 11, 31)]))
         //.y(d3.scaleLinear().domain([0, 100]))
