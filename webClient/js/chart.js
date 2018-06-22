@@ -47,14 +47,14 @@ d3.csv("data/industry.csv").then(function (data) {
         return d.location;
     });
     var locationGroup = location.group();
-    //locationGroup = getTops(locationGroup);
+    locationGroup = getTops(locationGroup);
 
     // Determine a histogram of percent changes
     var industryType = ndx.dimension(function (d) {
         return d.indust_nm;
     });
     var industryTypeGroup = industryType.group();
-    //industryTypeGroup = getTops(industryTypeGroup);
+    industryTypeGroup = getTops(industryTypeGroup);
 
     // Dimension by month
     var moveMonths = ndx.dimension(function (d) {
@@ -120,7 +120,7 @@ d3.csv("data/industry.csv").then(function (data) {
         .group(volumeByMonthGroup)  //group
         .centerBar(true)    
         .gap(1)
-        .x(d3.scaleTime().domain([new Date(1990, 0, 1), new Date(2012, 11, 31)]))
+        .x(d3.scaleTime().domain([new Date(2000, 0, 1), new Date(2012, 11, 31)]))
         //.y(d3.scaleLinear().domain([0, 100]))
         .round(d3.timeMonth.round)
         .alwaysUseRounding(true)
@@ -138,7 +138,7 @@ d3.csv("data/industry.csv").then(function (data) {
             return d.dd.getFullYear() + '/' + format((d.dd.getMonth() + 1));
         })
         // (_optional_) max number of records to be shown, `default = 25`
-        .size(10)
+        .size(25)
         // There are several ways to specify the columns; see the data-table documentation.
         // This code demonstrates generating the column header automatically based on the columns.
         .columns([
@@ -178,7 +178,7 @@ d3.csv("data/industry.csv").then(function (data) {
 function getTops(source_group) {
     return {
         all: function () {
-            return source_group.top(5);
+            return source_group.top(10);
         }
     };
 }
