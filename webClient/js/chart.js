@@ -2,16 +2,9 @@
 'use strict';
 /*
 
-location,incorporationDate,year_cd,indust_cd,indust_nm
-LEEDS,2012.9.11,2012,99999, Dormant Company
-LONDON,2010.9.21,2010,59112, Video production activities
-LONDON,2017.10.11,2017,62090, Other information technology service activities
-ABERDEEN,2012.4.11,2012,70229, Management consultancy activities other than financial management
-SILSOE,2014.7.30,2014,58190, Other publishing activities
-ST PETER PORT,2012.11.30,2012,None Supplied,
-STANSTED AIRPORT,2011.6.29,2011,70229, Management consultancy activities other than financial management
-BROCKLEY,1992.5.12,1992,90010, Performing arts
-WATERLOOVILLE,2016.7.12,2016,33200, Installation of industrial machinery and equipment
+FinalZipCode,location,incorporationDate,Year,IndustryCode,indust_nm
+W,London W,10/25/2000,2000,98000, Residents property management
+N,London N,07/18/2000,2000,98000, Residents property management
 
 */
 /**
