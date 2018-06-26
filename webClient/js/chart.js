@@ -1,11 +1,9 @@
 //# dc.js Getting Started and How-To Guide
 'use strict';
 /*
-
 FinalZipCode,location,incorporationDate,Year,IndustryCode,indust_nm
 W,London W,10/25/2000,2000,98000, Residents property management
 N,London N,07/18/2000,2000,98000, Residents property management
-
 */
 /**
  * Step 1: Create the dc.js chart objects
