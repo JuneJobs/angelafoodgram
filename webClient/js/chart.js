@@ -35,24 +35,24 @@ d3.csv("data/industry.csv").then(function (data) {
     });
 
     // Determine a histogram of percent changes
-    var zipCode = ndx.dimension(function (d) { //make data demension for the graph
+    var zipCode = ndx.dimension(function (d) { //make data dimension for the graph
         return d.FinalZipCode;
     });
-    var zipCodeGroup = zipCode.group(); //grouping demension data by x axis 
+    var zipCodeGroup = zipCode.group(); //grouping dimension data by x axis 
     zipCodeGroup = getTops(zipCodeGroup); //get top 10 groups in zipCodeGroup
 
     // Determine a histogram of percent changes
-    var location = ndx.dimension(function (d) { //make data demension for the graph
+    var location = ndx.dimension(function (d) { //make data dimension for the graph
         return d.location; //the sum of the group by x value which is location data in dimension
     });
-    var locationGroup = location.group(); //grouping demension data by x axis 
+    var locationGroup = location.group(); //grouping dimension data by x axis 
     locationGroup = getTops(locationGroup);//get top 10 groups in locationGroup
 
     // Determine a histogram of percent changes
-    var industryType = ndx.dimension(function (d) { //make data demension for the graph
+    var industryType = ndx.dimension(function (d) { //make data dimension for the graph
         return d.IndustryCode;  //the sum of the group by x value which is IndustryCode data in dimension
     });
-    var industryTypeGroup = industryType.group(); //grouping demension data by x axis 
+    var industryTypeGroup = industryType.group(); //grouping dimension data by x axis 
     industryTypeGroup = getTops(industryTypeGroup); //get top 10 groups in industryTypeGroup
 
     // Dimension by month
