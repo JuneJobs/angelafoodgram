@@ -21,47 +21,47 @@ d3.csv("data/industry.csv").then(function (data) {
     /**
      * Step3 Create Dimension that we'll need
      */
-    var ndx = crossfilter(data);
-    var all = ndx.groupAll();
+    var ndx = crossfilter(data);    //Convert CSV strings to Crossfilter Object
+    var all = ndx.groupAll();       //Grouping Crossfilter Object's real data. It's used for using the function whitch is filtering top categories
 
-    var dateFormatSpecifier = '%m/%d/%Y';
-    var dateFormat = d3.timeFormat(dateFormatSpecifier);
-    var dateFormatParser = d3.timeParse(dateFormatSpecifier);
-    var numberFormat = d3.format('.2f');
+    var dateFormatSpecifier = '%m/%d/%Y'; //Define day format to read CSV file. The format is  "month/day/year"
+    var dateFormat = d3.timeFormat(dateFormatSpecifier); //Convert day string to javascript day object format
+    var dateFormatParser = d3.timeParse(dateFormatSpecifier); //http://learnjsdata.com/time.html
+    var numberFormat = d3.format('.2f'); //Rounds
 
     data.forEach(function (d) {
-        d.dd = dateFormatParser(d.incorporationDate);
+        d.dd = dateFormatParser(d.incorporationDate); //make date type using incorperationDate in CSV file.
         d.month = d3.timeMonth(d.dd); // pre-calculate month for better performance
     });
 
     // Determine a histogram of percent changes
-    var zipCode = ndx.dimension(function (d) {
+    var zipCode = ndx.dimension(function (d) { //make data demension for the graph
         return d.FinalZipCode;
     });
-    var zipCodeGroup = zipCode.group();
-    zipCodeGroup = getTops(zipCodeGroup);
+    var zipCodeGroup = zipCode.group(); //grouping demension data by x axis 
+    zipCodeGroup = getTops(zipCodeGroup); //get top 10 groups in zipCodeGroup
 
     // Determine a histogram of percent changes
-    var location = ndx.dimension(function (d) {
-        return d.location;
+    var location = ndx.dimension(function (d) { //make data demension for the graph
+        return d.location; //the sum of the group by x value which is location data in dimension
     });
-    var locationGroup = location.group();
-    locationGroup = getTops(locationGroup);
+    var locationGroup = location.group(); //grouping demension data by x axis 
+    locationGroup = getTops(locationGroup);//get top 10 groups in locationGroup
 
     // Determine a histogram of percent changes
-    var industryType = ndx.dimension(function (d) {
-        return d.IndustryCode;
+    var industryType = ndx.dimension(function (d) { //make data demension for the graph
+        return d.IndustryCode;  //the sum of the group by x value which is IndustryCode data in dimension
     });
-    var industryTypeGroup = industryType.group();
-    industryTypeGroup = getTops(industryTypeGroup);
+    var industryTypeGroup = industryType.group(); //grouping demension data by x axis 
+    industryTypeGroup = getTops(industryTypeGroup); //get top 10 groups in industryTypeGroup
 
     // Dimension by month
     var moveMonths = ndx.dimension(function (d) {
-        return d.month;
+        return d.month; //the sum of the group by x value which is month data in dimension
     });
     // Group by total volume within move, and scale down result
     var volumeByMonthGroup = moveMonths.group().reduceSum(function (d) {
-        return 1;
+        return 1; 
     });
 
     // Dimension by full date
