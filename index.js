@@ -1,4 +1,4 @@
-var _webPort = 8080; //Web server port
+var _webPort = 3000; //Web server port
 var _path = __dirname + '/';
 //Import express module
 var express = require("express");
@@ -9,7 +9,7 @@ app.use("/", router);
 
 //Client request listner
 app.listen(_webPort, function () {
-    console.log("The server is working on the port 8080.");
+    console.log("The server is working on the port 3000.");
 });
 console.log(__dirname);
 app.use('/css', express.static(__dirname + "/webclient/css"));
