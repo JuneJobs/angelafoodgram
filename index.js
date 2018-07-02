@@ -1,4 +1,4 @@
-var _webPort = 8080;
+var _webPort = 8080; //Web server port
 var _path = __dirname + '/';
 //Import express module
 var express = require("express");
