@@ -1,4 +1,4 @@
-var _webPort = 3000; //Web serve r port
+var _webPort = 3000; //Web server port
 var _path = __dirname + '/';
 //Import express module
 var express = require("express");

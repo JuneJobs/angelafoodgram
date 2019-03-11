@@ -158,7 +158,7 @@ d3.csv("data/industry.csv").then(function (data) {
             return d.dd.getFullYear() + '/' + format((d.dd.getMonth() + 1));
         })
         // (_optional_) max number of records to be shown, `default = 25`
-        .size(51707)
+        .size(1000)
         // There are several ways to specify the columns; see the data-table documentation.
         // This code demonstrates generating the column header automatically based on the columns.
         .columns([
